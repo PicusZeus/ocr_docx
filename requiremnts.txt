@@ -5,7 +5,6 @@ cycler==0.10.0
 decorator==4.4.0
 defusedxml==0.6.0
 dill==0.3.1.1
-docx==0.2.4
 entrypoints==0.3
 importlib-metadata==0.23
 ipykernel==5.1.2
@@ -30,11 +29,11 @@ nbconvert==5.6.0
 nbformat==4.4.0
 nltk==3.4.5
 notebook==6.0.1
+python-docx==0.8.10
 numpy==1.17.2
 opencv-python==4.1.1.26
 pandocfilters==1.4.2
 parso==0.5.1
-pathos==0.2.5
 pexpect==4.7.0
 pickleshare==0.7.5
 Pillow==6.2.0
