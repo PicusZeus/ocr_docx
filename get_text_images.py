@@ -37,6 +37,10 @@ def extract_images(filepath, destination_folder='images'):
     overall_size = 0
     data = []
     destination = Path.cwd() / destination_folder
+
+    # empty the image dir
+    for f in destination.glob('*'):
+        f.unlink()
     try:
         # Creates a temporary directory
         with tempfile.TemporaryDirectory() as working_dir:

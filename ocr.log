@@ -3389,3 +3389,11 @@ INFO:ocr_image:ocred 78 images
 INFO:ocr_image:processing 79 image
 INFO:ocr_image:ocred 79 images
 INFO:ocr_image:ocred 80 images
+INFO:__main__1 files extracted
+INFO:__main__Converting to png
+INFO:ocr_image:processing 0 image
+INFO:ocr_image:ocred 1 images
+INFO:__main__1 files extracted
+INFO:__main__Converting to png
+INFO:ocr_image:processing 0 image
+INFO:ocr_image:ocred 1 images

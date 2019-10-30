@@ -54,3 +54,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# FIXME: a dictionary for ancient greek is now hardcoded, in order this code to be usable for other languages add flag to for other dictionaries
