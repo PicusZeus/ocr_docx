@@ -79,7 +79,7 @@ def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang
                     if '$' in w:
 
                         ws = ws.replace('$', '')
-                        added_paragraph.add_run(text=ws, style="Strong")
+                        added_paragraph.add_run(text=ws).bold = True
                     else:
                         added_paragraph.add_run(text=ws)
             logger.info(f'ocred {index + 1} images')

@@ -186,8 +186,10 @@ dmypy.json
 .pyre/
 venv/
 images/
-
+*.docx
 *.ipynb
 *.log
+
+
 
 # End of https://www.gitignore.io/api/python,pycharm,jupyternotebooks
