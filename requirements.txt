@@ -1,0 +1,8 @@
+lxml==4.5.0
+nltk==3.4.5
+numpy==1.18.1
+opencv-python==4.2.0.32
+Pillow==7.0.0
+pytesseract==0.3.2
+python-docx==0.8.10
+six==1.14.0

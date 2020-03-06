@@ -3552,3 +3552,27 @@ INFO:ocr_image:ocred 24 images
 INFO:ocr_image:processing 25 image
 INFO:ocr_image:ocred 25 images
 INFO:ocr_image:ocred 26 images
+INFO:__main__Filename or destination directory doesn't exist
+ERROR:__main__File: False; Directory: True
+INFO:__main__Filename or destination directory doesn't exist
+ERROR:__main__File: False; Directory: True
+INFO:__main__Filename or destination directory doesn't exist
+ERROR:__main__File: False; Directory: True
+INFO:__main__Filename or destination directory doesn't exist
+ERROR:__main__File: False; Directory: True
+INFO:__main__7 files extracted
+INFO:__main__Converting to png
+INFO:ocr_image:processing 0 image
+INFO:ocr_image:processing 1 image
+INFO:ocr_image:ocred 1 images
+INFO:ocr_image:processing 2 image
+INFO:ocr_image:ocred 2 images
+INFO:ocr_image:processing 3 image
+INFO:ocr_image:ocred 3 images
+INFO:ocr_image:processing 4 image
+INFO:ocr_image:ocred 4 images
+INFO:ocr_image:processing 5 image
+INFO:ocr_image:ocred 5 images
+INFO:ocr_image:processing 6 image
+INFO:ocr_image:ocred 6 images
+INFO:ocr_image:ocred 7 images

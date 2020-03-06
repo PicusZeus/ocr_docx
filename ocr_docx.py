@@ -28,8 +28,9 @@ def main():
     args = parser.parse_args()
 
     if args.destination_folder == 'images':
-        print('problem')
+
         if not Path(Path.cwd() / 'images').is_dir():
+
             Path.mkdir(Path.cwd() / 'images')
             logger.info("directory 'images' created")
 

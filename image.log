@@ -5543,3 +5543,20 @@ INFO:get_text_images:processing image2.png
 INFO:get_text_images:processing image20.png
 INFO:get_text_images:processing image10.png
 INFO:get_text_images:processing image1.png
+INFO:get_text_images:Created temporal working directory /tmp/tmp2u037rqq
+INFO:get_text_images:Extracted 7 images
+INFO:get_text_images:Copied word/media/image1.emf
+INFO:get_text_images:Copied word/media/image2.emf
+INFO:get_text_images:Copied word/media/image3.emf
+INFO:get_text_images:Copied word/media/image4.emf
+INFO:get_text_images:Copied word/media/image5.emf
+INFO:get_text_images:Copied word/media/image6.emf
+INFO:get_text_images:Copied word/media/image7.emf
+INFO:get_text_images:Copied all image files to /home/picus/Desktop/ocr_docx/images
+INFO:get_text_images:processing image3.png
+INFO:get_text_images:processing image7.png
+INFO:get_text_images:processing image6.png
+INFO:get_text_images:processing image4.png
+INFO:get_text_images:processing image5.png
+INFO:get_text_images:processing image2.png
+INFO:get_text_images:processing image1.png
