@@ -26,7 +26,7 @@ give name of a docx file you want to create, default 'ocred.docx'
 
 give language tag for ocr, default is ancient greek 'grc', but you can use whichever you prefer
 
-In order to work correctly you have to install pytesseract language pack on your machine
+In order to work correctly you have to install pytesseract language pack on your machine, for Ancient Greek it will be:
 
 >>> sudo apt install tesseract-ocr-grc
 
