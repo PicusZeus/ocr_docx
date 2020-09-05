@@ -26,6 +26,7 @@ stream.setFormatter(format_log)
 logger.addHandler(stream)
 lock = Lock()
 
+
 def is_image(filename):
     # a utility function
     return any(filename.endswith(ext) for ext in IMAGE_EXT)
@@ -77,6 +78,7 @@ def extract_images(filepath, destination_folder='images'):
 
         return data
 
+
 def emf_to_png_all(folder='images'):
     """
     in docx some images are stored as emf files,
@@ -100,17 +102,18 @@ def emf_to_png_all(folder='images'):
             [executor.submit(prepare_img_to_ocr, path) for path in img_files]
         os.chdir('..')
 
+
 def emf_to_png(file_path):
     with lock:
         os.system("libreoffice --headless --convert-to png {}". format(str(file_path)))
         file_path.unlink()
 
 
-
 def prepare_img_to_ocr(path):
     with lock:
         cropped = get_text_field(path)
         cv2.imwrite(path, cropped)
+
 
 def get_text_field(img_path):
     """
@@ -141,7 +144,6 @@ def get_text_field(img_path):
 
     ret, thresh = cv2.threshold(cropped,medium,255, cv2.THRESH_BINARY)
     return thresh
-
 
 
 def main():

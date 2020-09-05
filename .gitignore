@@ -186,9 +186,9 @@ dmypy.json
 .pyre/
 venv/
 images/
-*.docx
 *.ipynb
 *.log
+
 
 
 

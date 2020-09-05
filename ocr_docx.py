@@ -4,7 +4,6 @@ import argparse
 import logging
 from pathlib import Path
 from get_text_images import emf_to_png_all, extract_images
-
 from ocr_image import ocr_text_to_docx
 
 logger = logging.getLogger(__name__)
@@ -17,6 +16,7 @@ logger.addHandler(fileHandler)
 stream = logging.StreamHandler()
 stream.setFormatter(format_log)
 logger.addHandler(stream)
+
 
 def main():
     parser = argparse.ArgumentParser(prog='ocr_docx.py', description='Extract images from docx, ocr them and paste ocr text into docx file')
@@ -55,8 +55,7 @@ def main():
             logger.error(
                 'File: {}; Directory: {}'.format(Path(args.filepath).exists(), Path(args.destination).exists()))
 
+
 if __name__ == '__main__':
     main()
 
-
-# FIXME: a dictionary for ancient greek is now hardcoded, in order this code to be usable for other languages add flag to for other dictionaries

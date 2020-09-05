@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-
 import concurrent.futures
 from PIL import Image
 import os
@@ -35,8 +34,6 @@ greek_voc = pickle.load(open('greek_voc.pickle', 'rb'))
 paragraphs = []
 doc = docx.Document()
 ocr_texts = []
-
-
 
 
 def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang='grc'):
@@ -104,7 +101,7 @@ def ocr_image(index, image_folder, images, lang):
 
         for w in tokenized_text:
 
-            if w.lower() not in greek_voc:
+            if lang == 'grc' and w.lower() not in greek_voc:
                 checked_text.append(w + "$")
             else:
                 checked_text.append(w)
@@ -112,5 +109,3 @@ def ocr_image(index, image_folder, images, lang):
     return [index, checked_text]
 
 
-if __name__ == "__main__":
-    ocr_text_to_docx('4.docx')

@@ -7,7 +7,7 @@ install all requirements
 
 >>> pip install -r requirements.txt
 
-To ocr pasted images in docx file and to create
+In order to ocr pasted images in docx file and to create
 a new docx file with ocred text pasted along the images
 
 >>> python3 ocr_docx.py file.docx
