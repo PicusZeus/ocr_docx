@@ -12,7 +12,7 @@ from pathlib import Path
 from zipfile import ZipFile
 
 
-IMAGE_EXT = ('png', 'jpeg', 'jpg', 'emf')
+IMAGE_EXT = ('png', 'jpeg', 'jpg', 'emf', 'wmf')
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -33,13 +33,14 @@ def is_image(filename):
 
 
 def extract_images(filepath, destination_folder='images'):
-    '''Function to extract images from a given docx file'''
+    # Function to extract images from a given docx file
 
     overall_size = 0
     data = []
     destination = Path.cwd() / destination_folder
 
     # empty the image dir
+
     for f in destination.glob('*'):
         f.unlink()
     try:
@@ -79,7 +80,7 @@ def extract_images(filepath, destination_folder='images'):
         return data
 
 
-def emf_to_png_all(folder='images'):
+def mf_to_png_and_crop(folder='images', crop=True):
     """
     in docx some images are stored as emf files,
     this format need to be converted first into sth readable, and the easiest way is to use openoffice.
@@ -89,33 +90,34 @@ def emf_to_png_all(folder='images'):
     p = Path(Path.cwd() / folder)
     if not p.is_dir():
         logger.error('no images folder')
-    emf_files = [x for x in p.glob('*.emf')]
-    if len(emf_files) > 0:
+    wmf_and_emf_files = [x for x in p.glob('*mf')]
+    if len(wmf_and_emf_files) > 0:
         os.chdir(str(Path(Path.cwd() / folder)))
 
         with concurrent.futures.ProcessPoolExecutor() as executor:
-            [executor.submit(emf_to_png, file) for file in emf_files]
+            [executor.submit(_to_png, file) for file in wmf_and_emf_files]
 
         img_files = [x for x in os.listdir('.') if is_image(x)]
 
         with concurrent.futures.ProcessPoolExecutor() as executor:
-            [executor.submit(prepare_img_to_ocr, path) for path in img_files]
+            [executor.submit(prepare_img_to_ocr, path, crop) for path in img_files]
         os.chdir('..')
 
 
-def emf_to_png(file_path):
+def _to_png(file_path):
     with lock:
         os.system("libreoffice --headless --convert-to png {}". format(str(file_path)))
         file_path.unlink()
 
 
-def prepare_img_to_ocr(path):
+def prepare_img_to_ocr(path, crop):
     with lock:
-        cropped = get_text_field(path)
-        cv2.imwrite(path, cropped)
+        if not crop:
+            cropped = get_text_field(path, crop=crop)
+            cv2.imwrite(path, cropped)
 
 
-def get_text_field(img_path):
+def get_text_field(img_path, crop=True):
     """
     in docx images are stored in files, that have white background and on it
     the picture that was pasted into doc. This inhibits ocr, and
@@ -124,6 +126,10 @@ def get_text_field(img_path):
      to png.
     :return: a cropped and thresholded np object that can be used by pytesseract
     """
+
+    if not crop:
+        return None
+
     img = cv2.imread(str(img_path), 0)
     try:
         logger.info('processing {}'.format(img_path))
@@ -133,6 +139,7 @@ def get_text_field(img_path):
     img_inv = cv2.bitwise_not(img)
 
     contours,hierarchy = cv2.findContours(img_inv, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
     # there should be only one text field
     dst = contours[0]
     cropped = img[dst[0][0][1]:dst[2][0][1],dst[0][0][0]:dst[2][0][0]]
@@ -151,12 +158,17 @@ def main():
                                      description='Extracts images from docx, convert them to png and prepare to ocr')
     parser.add_argument('filepath')
     parser.add_argument('-d', '--destination', default='images')
+    parser.add_argument('-cr', '--crop', default='Yes')
     args = parser.parse_args()
 
     if args.destination == 'images':
         if not Path(Path.cwd() / 'images').is_dir():
             Path.mkdir(Path.cwd() / 'images')
             logger.info("directory 'images' created")
+    if args.crop == 'Yes':
+        crop = True
+    else:
+        crop = False
 
     if args.destination:
         if Path(args.filepath).is_file() and Path(args.destination).is_dir():
@@ -166,7 +178,7 @@ def main():
                                                                                                             process[1]/1024))
                 logger.info('Operation successful')
                 logger.info('Converting to png')
-                emf_to_png_all(args.destination)
+                mf_to_png_and_crop(args.destination, crop=crop)
             else:
                 print('Operation failed. File type {} not supported.'.format(process[0]))
                 logger.info('Operation failed')

@@ -15,6 +15,7 @@ from multiprocessing import Lock
 
 
 lemmatizer = PunktLanguageVars()
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 format_log = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
@@ -28,8 +29,6 @@ logger.addHandler(stream)
 
 lock = Lock()
 new_paragraphs = []
-greek_voc = pickle.load(open('greek_voc.pickle', 'rb'))
-
 
 paragraphs = []
 doc = docx.Document()
@@ -38,8 +37,11 @@ ocr_texts = []
 
 def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang='grc'):
 
+    if lang == 'grc':
+        global greek_voc
+        greek_voc = pickle.load(open('greek_voc.pickle', 'rb'))
+
     # make a list of paragraphs in the doc that contain images
-    print(file, Path.cwd(), Path(file).is_file())
     if not Path(file).is_file():
         logger.error("No such file")
         raise FileNotFoundError
@@ -55,7 +57,7 @@ def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang
     # it has to be sorted, images are written in a pattern "image1"
 
     # filter out only relevant files
-    images = list(filter(re.compile(r'.*\.(png|jpg|JPG|jpeg)').match, images))
+    images = list(filter(re.compile(r'.*\.(png|jpg|JPG|jpeg|wmf)').match, images))
 
     # sort them in ascending order
     images = sorted(images)

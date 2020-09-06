@@ -3,7 +3,7 @@
 import argparse
 import logging
 from pathlib import Path
-from get_text_images import emf_to_png_all, extract_images
+from get_text_images import mf_to_png_and_crop, extract_images
 from ocr_image import ocr_text_to_docx
 
 logger = logging.getLogger(__name__)
@@ -24,8 +24,14 @@ def main():
     parser.add_argument('-df', '--destination_folder', default='images')
     parser.add_argument('-d', '--destination', default='ocred.docx')
     parser.add_argument('-l', '--language', default='grc')
+    parser.add_argument('-cr', '--crop', default='Yes')
 
     args = parser.parse_args()
+
+    if args.crop == 'Yes':
+        crop=True
+    else:
+        crop=False
 
     if args.destination_folder == 'images':
 
@@ -35,7 +41,6 @@ def main():
             logger.info("directory 'images' created")
 
     if args.destination:
-        print(args.filepath, args.filepath.endswith('docx'))
         if args.filepath.endswith('docx') and Path(args.destination_folder).is_dir():
             process = extract_images(Path(args.filepath), Path(args.destination_folder))
             if len(process) == 2:
@@ -43,7 +48,7 @@ def main():
                                                                                                             process[1]/1024))
                 logger.info(f'{process[0]} files extracted')
                 logger.info('Converting to png')
-                emf_to_png_all(args.destination_folder)
+                mf_to_png_and_crop(args.destination_folder, crop=crop)
 
                 ocr_text_to_docx(args.filepath, image_folder=args.destination_folder, output_file=args.destination, lang=args.language)
             else:
