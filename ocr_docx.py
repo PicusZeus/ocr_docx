@@ -34,7 +34,6 @@ def main():
         crop=False
 
     if args.destination_folder == 'images':
-
         if not Path(Path.cwd() / 'images').is_dir():
 
             Path.mkdir(Path.cwd() / 'images')

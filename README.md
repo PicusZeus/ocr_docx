@@ -13,7 +13,7 @@ All the info as to how you can run the app, you can find in teh docs.rst.
 
 ## Change Log
 
-
+    * 0.21 added TIFF to the image formats that can be processed.
     * 0.2 minor fixes, now not only Ancient Greek supported, updated dependencies, added -cr flag for docx files
     with images in different format then emf/wmf (To Do: add to extracted images flag of what original format they were
     so that it automatically chooses if images should be cropped or not)

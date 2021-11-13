@@ -50,14 +50,12 @@ def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang
     for par in doc.paragraphs:
         if 'graphicData' in par._p.xml:
             image_paragraphs.append(par)
-
     # list of extracted images from doc file
     images = os.listdir(image_folder)
-
     # it has to be sorted, images are written in a pattern "image1"
 
     # filter out only relevant files
-    images = list(filter(re.compile(r'.*\.(png|jpg|JPG|jpeg|wmf)').match, images))
+    images = list(filter(re.compile(r'.*\.(png|jpg|JPG|jpeg|wmf|tiff)').match, images))
 
     # sort them in ascending order
     images = sorted(images)
@@ -66,6 +64,7 @@ def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang
 
     with concurrent.futures.ProcessPoolExecutor() as executor:
         res = [executor.submit(ocr_image, index, image_folder, images, lang) for index in range(len(image_paragraphs))]
+
         for f in concurrent.futures.as_completed(res):
             index, checked_text = f.result()
             par = image_paragraphs[index]
@@ -87,13 +86,15 @@ def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang
 
 
 def ocr_image(index, image_folder, images, lang):
-
     with lock:
         file_path = (Path.cwd() / image_folder / images[index])
+
         logger.info(f'processing {index} image')
-
-        text = pytesseract.image_to_string(Image.open(str(file_path)), lang=lang)
-
+        try:
+            text = pytesseract.image_to_string(Image.open(str(file_path)), lang=lang)
+        except:
+            print('maybe you didnt install pytesseract for your language?')
+            raise ValueError
         text = text.replace('-\n', '')
         text = text.replace('\n', ' ')
 

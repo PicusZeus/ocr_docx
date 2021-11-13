@@ -12,7 +12,7 @@ from pathlib import Path
 from zipfile import ZipFile
 
 
-IMAGE_EXT = ('png', 'jpeg', 'jpg', 'emf', 'wmf')
+IMAGE_EXT = ('png', 'jpeg', 'jpg', 'emf', 'wmf', 'tiff')
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -50,7 +50,9 @@ def extract_images(filepath, destination_folder='images'):
 
             # Unzips the images
             with ZipFile(filepath) as working_zip:
+                print(working_zip.namelist())
                 image_list = [name for name in working_zip.namelist() if is_image(name)]
+                print(image_list)
                 for x in image_list:
                     overall_size = overall_size + working_zip.getinfo(x).file_size
                 file_count = len(image_list)
@@ -154,6 +156,7 @@ def get_text_field(img_path, crop=True):
 
 
 def main():
+    print('MAIN')
     parser = argparse.ArgumentParser(prog='get_image_text.py',
                                      description='Extracts images from docx, convert them to png and prepare to ocr')
     parser.add_argument('filepath')
@@ -171,8 +174,11 @@ def main():
         crop = False
 
     if args.destination:
+        print(args, 'ARGS')
+
         if Path(args.filepath).is_file() and Path(args.destination).is_dir():
             process = extract_images(Path(args.filepath), Path(args.destination))
+            print(args.filepath, 'FILEPATJ')
             if len(process) == 2:
                 print('Operation completed successfully. {} images were extracted ({:,.2f}KB total)'.format(process[0],
                                                                                                             process[1]/1024))
