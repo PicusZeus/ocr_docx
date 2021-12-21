@@ -13,9 +13,7 @@ from nltk.tokenize.punkt import PunktLanguageVars
 from string import punctuation
 from multiprocessing import Lock
 
-
 lemmatizer = PunktLanguageVars()
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 format_log = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
@@ -110,5 +108,3 @@ def ocr_image(index, image_folder, images, lang):
                 checked_text.append(w)
 
     return [index, checked_text]
-
-
