@@ -32,12 +32,11 @@ paragraphs = []
 doc = docx.Document()
 ocr_texts = []
 
+with open('greek_voc.pickle', 'rb') as file:
+    greek_voc = pickle.load(file)
+
 
 def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang='grc'):
-
-    if lang == 'grc':
-        global greek_voc
-        greek_voc = pickle.load(open('greek_voc.pickle', 'rb'))
 
     # make a list of paragraphs in the doc that contain images
     if not Path(file).is_file():
