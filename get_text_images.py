@@ -10,6 +10,7 @@ from multiprocessing import Lock
 import cv2
 from pathlib import Path
 from zipfile import ZipFile
+from typing import Union
 
 
 IMAGE_EXT = ('png', 'jpeg', 'jpg', 'emf', 'wmf', 'tiff')
@@ -27,12 +28,12 @@ logger.addHandler(stream)
 lock = Lock()
 
 
-def is_image(filename):
+def is_image(filename: str) -> bool:
     # a utility function
     return any(filename.endswith(ext) for ext in IMAGE_EXT)
 
 
-def extract_images(filepath, destination_folder='images'):
+def extract_images(filepath, destination_folder='images') -> list:
     # Function to extract images from a given docx file
 
     overall_size = 0

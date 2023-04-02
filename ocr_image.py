@@ -12,6 +12,7 @@ import pytesseract
 from nltk.tokenize.punkt import PunktLanguageVars
 from string import punctuation
 from multiprocessing import Lock
+from typing import NoReturn
 
 lemmatizer = PunktLanguageVars()
 logger = logging.getLogger(__name__)
@@ -32,18 +33,19 @@ paragraphs = []
 doc = docx.Document()
 ocr_texts = []
 
+# quite comprehensive list, that helps in recognizing incorrect results of ocr.
 with open('greek_voc.pickle', 'rb') as file:
-    greek_voc = pickle.load(file)
+    greek_vocabulary = pickle.load(file)
 
 
-def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang='grc'):
+def ocr_text_to_docx(file_name: str, image_folder='images', output_file='ocred.docx', lang='grc') -> NoReturn:
 
     # make a list of paragraphs in the doc that contain images
-    if not Path(file).is_file():
+    if not Path(file_name).is_file():
         logger.error("No such file")
         raise FileNotFoundError
     image_paragraphs = []
-    doc = docx.Document(file)
+    doc = docx.Document(file_name)
     for par in doc.paragraphs:
         if 'graphicData' in par._p.xml:
             image_paragraphs.append(par)
@@ -57,7 +59,7 @@ def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang
     # sort them in ascending order
     images = sorted(images)
     # so that order be image9, image10, and not image1, image10
-    images.sort(key=lambda x:len(x))
+    images.sort(key=lambda x: len(x))
 
     with concurrent.futures.ProcessPoolExecutor() as executor:
         res = [executor.submit(ocr_image, index, image_folder, images, lang) for index in range(len(image_paragraphs))]
@@ -82,7 +84,7 @@ def ocr_text_to_docx(file, image_folder='images', output_file='ocred.docx', lang
     doc.save(output_file)
 
 
-def ocr_image(index, image_folder, images, lang):
+def ocr_image(index: int, image_folder: str, images: str, lang: str) -> list:
     with lock:
         file_path = (Path.cwd() / image_folder / images[index])
 
@@ -101,7 +103,7 @@ def ocr_image(index, image_folder, images, lang):
 
         for w in tokenized_text:
 
-            if lang == 'grc' and w.lower() not in greek_voc:
+            if lang == 'grc' and w.lower() not in greek_vocabulary:
                 checked_text.append(w + "$")
             else:
                 checked_text.append(w)
