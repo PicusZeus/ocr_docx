@@ -1,8 +1,8 @@
 # ocr-docx
 
 A simple Python 3 app for extracting and ocring text images pasted into docx files.
-The application reads text that exists on an images and pastes it into the main text, in the paragraph the image was placed. You
-should check and correct the results, because there will certainly be some mistakes, the amount of which will depend on the
+The application reads text that can be read from images and pastes it into the main text, in the paragraph the image was originally placed. You
+should check and correct the results, because there will be certainly some mistakes, the amount of which will depend on the
 quality of images. In order to work correctly the images must be pasted into the doc file as paragraphs (this is
 very important), as otherwise the app will be confused and will be unable to guess were to paste the ocred text.
 
